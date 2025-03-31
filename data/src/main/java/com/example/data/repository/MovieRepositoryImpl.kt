@@ -25,49 +25,56 @@ class MovieRepositoryImpl @Inject constructor(
 
     override suspend fun fetchNowPlayingMovies(): ResultState<List<MovieDomainModel>> {
         return try {
-            val response = remoteDataSource.fetchNowPlayingMovies()
 
+            val localMovies = localDataSource.getMovies().firstOrNull()
+
+            if (!localMovies.isNullOrEmpty()) {
+                return ResultState.Success(localMovies.map { it.toDomainModel() })
+            }
+
+
+            val response = remoteDataSource.fetchNowPlayingMovies()
             when (response) {
                 is DataState.Success -> {
                     val moviesEntities = response.data.results.map { it.toEntity() }
                     localDataSource.insertMovies(moviesEntities)
 
-
                     moviesEntities.forEach { movie ->
                         fetchAndStoreMovieDetails(movie.id)
                     }
 
-                    getLocalMovies()
+                    ResultState.Success(moviesEntities.map { it.toDomainModel() })
                 }
-
                 is DataState.Error -> {
-                    getLocalMovies()
+                    ResultState.Error(response.exception)
                 }
             }
         } catch (e: Exception) {
             ResultState.Error(ExceptionHandler.handleException(e))
-
         }
     }
-
     override suspend fun fetchMovieDetails(movieId: Int): ResultState<MovieDetailsDomainModel> {
         return try {
-            val response = remoteDataSource.fetchMovieDetails(movieId)
 
+            val localMovieDetails = localDataSource.getMovieDetails(movieId).firstOrNull()
+            if (localMovieDetails != null) {
+                return ResultState.Success(localMovieDetails.toDomainModel())
+            }
+
+
+            val response = remoteDataSource.fetchMovieDetails(movieId)
             when (response) {
                 is DataState.Success -> {
                     val movieEntity = response.data.toEntity()
                     localDataSource.insertMovieDetails(movieEntity)
                     ResultState.Success(movieEntity.toDomainModel())
                 }
-
                 is DataState.Error -> {
-                    getLocalMovieDetails(movieId)
+                    ResultState.Error(response.exception)
                 }
             }
         } catch (e: Exception) {
             ResultState.Error(ExceptionHandler.handleException(e))
-
         }
     }
 
@@ -86,26 +93,6 @@ class MovieRepositoryImpl @Inject constructor(
         }
     }
 
-
-    private suspend fun getLocalMovies(): ResultState<List<MovieDomainModel>> {
-        val localMovies = localDataSource.getMovies().firstOrNull()
-        return if (!localMovies.isNullOrEmpty()) {
-            ResultState.Success(localMovies.map { it.toDomainModel() })
-        } else {
-            ResultState.Error("No data available in local database")
-        }
-    }
-
-
-    private suspend fun getLocalMovieDetails(movieId: Int): ResultState<MovieDetailsDomainModel> {
-        val localMovieDetails = localDataSource.getMovieDetails(movieId).firstOrNull()
-
-        Log.d("MovieRepositoryImpl", "Local DB - PosterPath: ${localMovieDetails?.posterPath}")
-
-        return localMovieDetails?.let {
-            ResultState.Success(it.toDomainModel())
-        } ?: ResultState.Error("No details found for movie ID: $movieId in local database")
-    }
 
 }
 
