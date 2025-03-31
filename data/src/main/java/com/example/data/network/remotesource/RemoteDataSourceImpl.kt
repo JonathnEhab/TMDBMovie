@@ -4,9 +4,11 @@ import com.example.data.network.modelnetwork.MovieDbResultDataModel
 import com.example.data.network.modelnetwork.MovieDetailsDataModel
 import com.example.data.network.service.ApiService
 import com.example.data.network.state.DataState
+import com.example.util.ExceptionHandler
 import javax.inject.Inject
 
-class RemoteDataSourceImpl @Inject constructor(private val apiService: ApiService) : RemoteDataSource {
+class RemoteDataSourceImpl @Inject constructor(private val apiService: ApiService)
+    : RemoteDataSource {
 
     override suspend fun fetchNowPlayingMovies(
 
@@ -19,7 +21,7 @@ class RemoteDataSourceImpl @Inject constructor(private val apiService: ApiServic
                 DataState.Error(response.message() ?: "Unknown error occurred")
             }
         } catch (e: Exception) {
-            DataState.Error(e.localizedMessage ?: "An error occurred")
+            DataState.Error(ExceptionHandler.handleException(e))
         }
     }
 
@@ -32,7 +34,7 @@ class RemoteDataSourceImpl @Inject constructor(private val apiService: ApiServic
                 DataState.Error(response.message() ?: "Unknown error occurred")
             }
         } catch (e: Exception) {
-            DataState.Error(e.localizedMessage ?: "An error occurred")
+            DataState.Error(ExceptionHandler.handleException(e))
         }
     }
 }

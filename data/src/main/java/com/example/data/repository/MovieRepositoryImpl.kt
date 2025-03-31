@@ -12,6 +12,7 @@ import com.example.domain.models.MovieDomainModel
 
 import com.example.domain.repostiory.MovieRepository
 import com.example.domain.state.ResultState
+import com.example.util.ExceptionHandler
 import kotlinx.coroutines.flow.firstOrNull
 
 import javax.inject.Inject
@@ -44,7 +45,8 @@ class MovieRepositoryImpl @Inject constructor(
                 }
             }
         } catch (e: Exception) {
-            ResultState.Error("Error fetching movies: ${e.message}")
+            ResultState.Error(ExceptionHandler.handleException(e))
+
         }
     }
 
@@ -64,7 +66,8 @@ class MovieRepositoryImpl @Inject constructor(
                 }
             }
         } catch (e: Exception) {
-            ResultState.Error("Error fetching movie details: ${e.message}")
+            ResultState.Error(ExceptionHandler.handleException(e))
+
         }
     }
 

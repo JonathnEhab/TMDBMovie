@@ -6,6 +6,7 @@ import com.example.domain.repostiory.MovieRepository
 import com.example.domain.state.ResultState
 import com.example.state.moviesstate.MoviesIntent
 import com.example.state.moviesstate.MoviesState
+import com.example.util.ExceptionHandler
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -36,7 +37,7 @@ class MoviesViewModel @Inject constructor(
                     _moviesState.value = MoviesState.Success(result.data)
                 }
                 is ResultState.Error -> {
-                    _moviesState.value = MoviesState.Error(result.message)
+                    _moviesState.value = MoviesState.Error(ExceptionHandler.handleException(Exception(result.message)))
                 }
             }
         }

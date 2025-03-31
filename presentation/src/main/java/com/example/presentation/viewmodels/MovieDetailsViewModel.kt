@@ -8,6 +8,7 @@ import com.example.state.detailsstate.DetailsIntent
 import com.example.state.detailsstate.DetailsState
 import com.example.state.moviesstate.MoviesIntent
 import com.example.state.moviesstate.MoviesState
+import com.example.util.ExceptionHandler
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -35,7 +36,7 @@ class MovieDetailsViewModel @Inject constructor(
             _detailsState.value = DetailsState.Loading
             when (val result = repository.fetchMovieDetails(id)) {
                 is ResultState.Error -> {
-                    _detailsState.value=  DetailsState.Error(result.message)
+                    _detailsState.value = DetailsState.Error(ExceptionHandler.handleException(Exception(result.message)))
                 }
                 is ResultState.Success -> {
                     _detailsState.value = DetailsState.Success(result.data)
