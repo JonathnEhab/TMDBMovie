@@ -1,0 +1,173 @@
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+   >
+
+
+    <ImageView
+        android:id="@+id/backdropImage"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/movie"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/gradientOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/gradient_overlay"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.7" />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/movieDetailsContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+      >
+
+        <TextView
+            android:id="@+id/titleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Movie Title"
+            android:textColor="@color/yellow"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/yellow"
+            app:layout_constraintEnd_toEndOf="@+id/titleText"
+            app:layout_constraintStart_toStartOf="@+id/titleText"
+            app:layout_constraintTop_toBottomOf="@+id/titleText" />
+
+
+        <TextView
+            android:id="@+id/voteAverageText"
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/baseline_star_24"
+            android:text="Rating: 8.5"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:layout_marginTop="15dp"
+            app:layout_constraintStart_toStartOf="@+id/titleText"
+            app:layout_constraintTop_toBottomOf="@+id/titleText" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:background="@color/yellow"
+            app:layout_constraintBottom_toBottomOf="@+id/voteAverageText"
+            app:layout_constraintEnd_toStartOf="@+id/runTimeText"
+            app:layout_constraintStart_toEndOf="@+id/voteAverageText"
+            app:layout_constraintTop_toTopOf="@+id/runTimeText" />
+
+        <TextView
+            android:id="@+id/runTimeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="35dp"
+            android:drawableStart="@drawable/baseline_star_24"
+            android:text=" Run Time: 8.5"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            app:layout_constraintStart_toEndOf="@+id/voteAverageText"
+            app:layout_constraintTop_toTopOf="@+id/voteAverageText" />
+
+        <TextView
+            android:id="@+id/voteCountText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="  1200 votes"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:layout_marginTop="8dp"
+            android:drawableStart="@drawable/outline_done_all_24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/voteAverageText" />
+
+        <TextView
+            android:id="@+id/releaseDateText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/baseline_calendar_month_24"
+            android:text="  Release Date: 2024-02-15"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/voteCountText" />
+
+        <TextView
+            android:id="@+id/popularityText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/outline_local_fire_department_24"
+            android:text="  Popularity: 85.6"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/releaseDateText" />
+
+        <TextView
+            android:id="@+id/overviewText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="4"
+            android:layout_marginTop="8dp"
+            android:text="Movie overview goes here..."
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/popularityText" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="50dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="10dp"
+        app:cardCornerRadius="150dp"
+        app:strokeColor="@android:color/transparent"
+        android:layout_height="50dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:background="#0D0122"
+            android:alpha=".6"
+            android:layout_height="match_parent">
+            <ImageButton
+                android:id="@+id/back"
+                android:src="@drawable/baseline_arrow_back_24"
+                android:backgroundTint="@android:color/transparent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+</androidx.constraintlayout.widget.ConstraintLayout>
