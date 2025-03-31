@@ -36,17 +36,17 @@ class MoviesViewModelTest {
 
     @Test
     fun `when fetch movies is successful, state should be Success`() = runTest {
-        // Given
+
         val mockMovies = listOf(
             MovieDomainModel(id = 1, title = "Test Movie", posterPath = "sa", releaseDate = "sk", voteAverage = 2.2)
         )
         coEvery { repository.fetchNowPlayingMovies() } returns ResultState.Success(mockMovies)
 
-        // When
-        viewModel.handleIntent(MoviesIntent.FetchNowPlayingMovies)
-        advanceUntilIdle() // تشغيل جميع الكوروتينات النشطة
 
-        // Then
+        viewModel.handleIntent(MoviesIntent.FetchNowPlayingMovies)
+        advanceUntilIdle()
+
+
         val state = viewModel.moviesState.first()
         assertEquals(MoviesState.Success(mockMovies), state)
     }
