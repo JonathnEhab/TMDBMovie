@@ -51,16 +51,16 @@ class MovieDetailsViewModelTest {
         coEvery { repository.fetchMovieDetails(1) } returns ResultState.Success(movieDetails)
 
         viewModel.detailsState.test {
-            // Trigger intent before checking state emissions
+
             viewModel.handleIntent(DetailsIntent.FetchMovieDetails(1))
 
-            // First emission should be Loading
+
             assertEquals(DetailsState.Loading, awaitItem())
 
-            // Advance until all coroutines complete
+
             advanceUntilIdle()
 
-            // Success state should be emitted after Loading
+
             val successState = awaitItem() as DetailsState.Success
             assertEquals(movieDetails, successState.movies)
 

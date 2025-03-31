@@ -16,11 +16,11 @@ class MainDispatcherRule(
 ) : TestWatcher() {
 
     override fun starting(description: Description?) {
-        Dispatchers.setMain(dispatcher)  // استبدال `Dispatchers.Main`
+        Dispatchers.setMain(dispatcher)
     }
 
     override fun finished(description: Description?) {
-        Dispatchers.resetMain() // إعادة `Dispatchers.Main` إلى حالته الأصلية
+        Dispatchers.resetMain()
     }
 }
 
