@@ -27,8 +27,8 @@ class MovieRepositoryImpl @Inject constructor(
         return try {
 
             val localMovies = localDataSource.getMovies().firstOrNull()
-
             if (!localMovies.isNullOrEmpty()) {
+
                 return ResultState.Success(localMovies.map { it.toDomainModel() })
             }
 
@@ -39,9 +39,6 @@ class MovieRepositoryImpl @Inject constructor(
                     val moviesEntities = response.data.results.map { it.toEntity() }
                     localDataSource.insertMovies(moviesEntities)
 
-                    moviesEntities.forEach { movie ->
-                        fetchAndStoreMovieDetails(movie.id)
-                    }
 
                     ResultState.Success(moviesEntities.map { it.toDomainModel() })
                 }
@@ -53,11 +50,13 @@ class MovieRepositoryImpl @Inject constructor(
             ResultState.Error(ExceptionHandler.handleException(e))
         }
     }
+
     override suspend fun fetchMovieDetails(movieId: Int): ResultState<MovieDetailsDomainModel> {
         return try {
 
             val localMovieDetails = localDataSource.getMovieDetails(movieId).firstOrNull()
             if (localMovieDetails != null) {
+
                 return ResultState.Success(localMovieDetails.toDomainModel())
             }
 
@@ -67,6 +66,8 @@ class MovieRepositoryImpl @Inject constructor(
                 is DataState.Success -> {
                     val movieEntity = response.data.toEntity()
                     localDataSource.insertMovieDetails(movieEntity)
+
+
                     ResultState.Success(movieEntity.toDomainModel())
                 }
                 is DataState.Error -> {
@@ -79,19 +80,8 @@ class MovieRepositoryImpl @Inject constructor(
     }
 
 
-    private suspend fun fetchAndStoreMovieDetails(movieId: Int) {
-        when (val response = remoteDataSource.fetchMovieDetails(movieId)) {
-            is DataState.Success -> {
-                val movieEntity = response.data.toEntity()
-                localDataSource.insertMovieDetails(movieEntity)
-            }
-            is DataState.Error -> {
-                Log.d("MovieRepositoryImpl", "fetchAndStoreMovieDetails: Can't insert movies")
 
 
-            }
-        }
-    }
 
 
 }
