@@ -70,7 +70,7 @@ class DetailsFragment : Fragment() {
             movieDetailsViewModel.detailsState.collectLatest { state ->
                 when (state) {
                     is DetailsState.Loading -> {
-                        Toast.makeText(requireContext(),"loading..",Toast.LENGTH_SHORT).show()
+
                     }
                     is DetailsState.Success -> {
                         displayMovieDetails(state.movies)

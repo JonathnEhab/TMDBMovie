@@ -75,20 +75,19 @@ class MoviesFragment : Fragment() {
             viewModel.moviesState.collect { state ->
                 when (state) {
                     is MoviesState.Loading -> {
-                        binding.textView.visibility=View.GONE
-                        binding.moviesContaner.visibility=View.VISIBLE
+                        binding.errorMassages.visibility=View.GONE
+                        binding.nowPlay.visibility=View.VISIBLE
                         binding.nowPlay.adapter = shimmerAdapter
                     }
                     is MoviesState.Success -> {
-                        binding.textView.visibility=View.GONE
-                        binding.moviesContaner.visibility=View.VISIBLE
+                        binding.nowPlay.visibility=View.VISIBLE
                         nowPlayingAdapter.submitList(state.movies)
                         binding.nowPlay.adapter = nowPlayingAdapter
                     }
                     is MoviesState.Error -> {
-                        binding.textView.visibility=View.VISIBLE
-                        binding.moviesContaner.visibility=View.GONE
-                        binding.textView.text=state.message
+                        binding.errorMassages.visibility=View.VISIBLE
+                        binding.nowPlay.visibility=View.GONE
+                        binding.errorMassages.text=state.message
 
                         Log.d("MoviesActivity", "Error: ${state.message}")
                     }

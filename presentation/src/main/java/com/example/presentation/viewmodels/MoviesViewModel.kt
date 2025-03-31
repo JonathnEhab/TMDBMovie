@@ -7,6 +7,7 @@ import com.example.domain.state.ResultState
 import com.example.state.moviesstate.MoviesIntent
 import com.example.state.moviesstate.MoviesState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -28,7 +29,7 @@ class MoviesViewModel @Inject constructor(
     }
 
     private fun fetchNowPlayingMovies() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             _moviesState.value = MoviesState.Loading
             when (val result = repository.fetchNowPlayingMovies()) {
                 is ResultState.Success -> {
