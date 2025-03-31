@@ -1,7 +1,7 @@
 # 🎬 Movies App - With Unit Testing
 
 ## 📌 **Project Overview**
-The **Movies App** is a simple project that demonstrates how to implement **ViewModel with StateFlow** to manage and display a list of movies. The project follows the **MVVM (Model-View-ViewModel) architecture**, ensuring a clean separation of concerns. The application fetches movie data from a repository and processes it using a **ResultState** mechanism to handle success and error scenarios.
+The **Movies App** is a simple project that demonstrates how to implement **ViewModel with StateFlow** to manage and display a list of movies. The project follows the **MVI (Model-View-Intent) architecture**, ensuring a clean separation of concerns. The application fetches movie data from a repository and processes it using a **ResultState** mechanism to handle success and error scenarios.
 
 Additionally, the project includes  *UNIT TEST* or **MoviesViewModel, Repository, Api Service, Dao, and UseCases**, ensuring that data flows correctly and behaves as expected. The tests use **Mockk, Turbine, and Kotlin Coroutines Test** to simulate API responses and verify state changes in ViewModel.
 
