@@ -79,6 +79,7 @@ dependencies {
     testImplementation ("junit:junit:4.13.2")
     testImplementation ("org.mockito.kotlin:mockito-kotlin:4.1.0")
     testImplementation ("app.cash.turbine:turbine:1.0.0")
+    testImplementation("org.jetbrains.kotlin:kotlin-test")
 
 
 

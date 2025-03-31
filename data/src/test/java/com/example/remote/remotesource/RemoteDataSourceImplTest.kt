@@ -33,7 +33,7 @@ class RemoteDataSourceImplTest {
         mockWebServer.start()
 
         val retrofit = Retrofit.Builder()
-            .baseUrl(mockWebServer.url("/")) // عنوان مزيف لمحاكاة الـ API
+            .baseUrl(mockWebServer.url("/"))
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
@@ -43,12 +43,12 @@ class RemoteDataSourceImplTest {
 
     @After
     fun tearDown() {
-        mockWebServer.shutdown() // إيقاف السيرفر بعد كل اختبار
+        mockWebServer.shutdown()
     }
 
     @Test
     fun `fetchNowPlayingMovies should return success when API responds correctly`() = runTest {
-        // محاكاة استجابة الـ API الناجحة
+
         val mockResponse = MockResponse()
             .setResponseCode(200)
             .setBody("{ \"results\": [{ \"id\": 1, \"title\": \"Test Movie\", \"overview\": \"Test Overview\" }] }")

@@ -51,10 +51,10 @@ class ApiServiceTest {
             """.trimIndent())
         mockWebServer.enqueue(mockResponse)
 
-        // 2️⃣ **استدعاء الـ API**
+
         val response = apiService.fetchNowPlayingMovies()
 
-        // 3️⃣ **التحقق من صحة الاستجابة**
+
         assertEquals(200, response.code())
         assertEquals("Mock Movie", response.body()?.results?.get(0)?.title)
         assertEquals("/mock.jpg", response.body()?.results?.get(0)?.posterPath)

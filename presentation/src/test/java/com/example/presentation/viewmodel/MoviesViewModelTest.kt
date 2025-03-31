@@ -1,6 +1,5 @@
 package com.example.presentation.viewmodel
 
-import com.bumptech.glide.load.engine.Resource
 import com.example.domain.models.MovieDomainModel
 import com.example.domain.repostiory.MovieRepository
 import com.example.domain.state.ResultState
@@ -9,40 +8,46 @@ import com.example.state.moviesstate.MoviesIntent
 import com.example.state.moviesstate.MoviesState
 import io.mockk.coEvery
 import io.mockk.mockk
-import junit.framework.TestCase.assertEquals
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.advanceUntilIdle
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.test.*
+import org.junit.After
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
+import kotlin.test.assertEquals
 
-
-@ExperimentalCoroutinesApi
+@OptIn(ExperimentalCoroutinesApi::class)
 class MoviesViewModelTest {
 
-    @get:Rule
-    val mainDispatcherRule = MainDispatcherRule()
     private lateinit var viewModel: MoviesViewModel
-    private val repository: MovieRepository = mockk()
+    private val repository: MovieRepository = mockk(relaxed = true)
+    private val testDispatcher = StandardTestDispatcher()
 
     @Before
     fun setup() {
+        Dispatchers.setMain(testDispatcher)
         viewModel = MoviesViewModel(repository)
     }
+
+    @After
+    fun tearDown() {
+        Dispatchers.resetMain()
+    }
+
     @Test
-    fun `fetchNowPlayingMovies should update state to Success when repository returns data`() = runTest {
+    fun `when fetch movies is successful, state should be Success`() = runTest {
+        // Given
+        val mockMovies = listOf(
+            MovieDomainModel(id = 1, title = "Test Movie", posterPath = "sa", releaseDate = "sk", voteAverage = 2.2)
+        )
+        coEvery { repository.fetchNowPlayingMovies() } returns ResultState.Success(mockMovies)
 
-        val movies = listOf(MovieDomainModel(id = 1, title = "Movie 1", releaseDate = "sdmasl", posterPath = "sm", voteAverage = 4.5))
-        coEvery { repository.fetchNowPlayingMovies() } returns ResultState.Success(movies)
-
+        // When
         viewModel.handleIntent(MoviesIntent.FetchNowPlayingMovies)
-        advanceUntilIdle()
-        assert(viewModel.moviesState.value is MoviesState.Success)
-        assertEquals(movies, (viewModel.moviesState.value as MoviesState.Success).movies)
+        advanceUntilIdle() // تشغيل جميع الكوروتينات النشطة
+
+        // Then
+        val state = viewModel.moviesState.first()
+        assertEquals(MoviesState.Success(mockMovies), state)
     }
 }
-
-
-
-
