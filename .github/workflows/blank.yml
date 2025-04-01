@@ -1,0 +1,30 @@
+name: Build and Generate local.properties
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v2
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v2
+        with:
+          api-level: 30
+          build-tools: 30.0.3
+
+      - name: Generate local.properties
+        run: |
+          echo "MOVIES_API_KEY=50b13e010d72170b1aab1fba34aa753f" > local.properties
+          echo "MOVIES_BASE_URL=https://api.themoviedb.org/3/movie/" >> local.properties
+          echo "MOVIES_IMAGE_URL=https://image.tmdb.org/t/p/w500" >> local.properties
+          echo "local.properties generated successfully!"
+
+      - name: Build the project
+        run: ./gradlew build
