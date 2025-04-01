@@ -1,4 +1,5 @@
-# Make sure you put **( MOVIES_API_KEY &&  MOVIES_BASE_URL && MOVIES_IMAGE_URL )** in  **local.properties File**
+# Make sure you Make *LOCAL PROPERTIES FILE*  
+ **and Put ( MOVIES_API_KEY &&  MOVIES_BASE_URL && MOVIES_IMAGE_URL )** in  **local.properties File**
 ---
 
 MOVIES_API_KEY=50b13e010d72170b1aab1fba34aa753f
