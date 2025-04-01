@@ -1,8 +1,6 @@
 package com.example.data.network.modelnetwork
 
-import com.example.data.BuildConfig
-import com.example.domain.models.MovieDetailsDomainModel
-import com.example.domain.models.MovieDomainModel
+
 import com.google.gson.annotations.SerializedName
 
 
@@ -28,5 +26,8 @@ data class MovieDbResultDataModel(
     @SerializedName("total_results") val totalResults: Int,
     val results: List<MovieDataModel>
 )
+
+
+
 
 

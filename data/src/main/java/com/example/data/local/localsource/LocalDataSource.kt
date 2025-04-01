@@ -8,6 +8,9 @@ import kotlinx.coroutines.flow.Flow
 interface LocalDataSource {
         suspend fun insertMovies(movies: List<MovieEntity>)
         suspend fun insertMovieDetails(movie: MovieDetailsEntity)
+
+
+
         fun getMovies(): Flow<List<MovieEntity>>
         fun getMovieDetails(movieId: Int): Flow<MovieDetailsEntity?>
 

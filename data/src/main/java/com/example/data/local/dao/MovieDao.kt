@@ -16,11 +16,12 @@ interface MovieDao {
         @Insert(onConflict = OnConflictStrategy.REPLACE)
         suspend fun insertMovieDbResultNowPlaying(movie: MovieEntity)
 
-        @Query("SELECT * FROM movies")
+        @Query("SELECT * FROM NowPlayMovies")
         fun getNowPlayingMovies(): Flow<List<MovieEntity>>
 
         @Insert(onConflict = OnConflictStrategy.REPLACE)
         suspend fun insertMovieDetails(movie: MovieDetailsEntity)
+
 
         @Query("SELECT * FROM movie_details WHERE id = :movieId")
         fun getMovieDetails(movieId: Int): Flow<MovieDetailsEntity?>

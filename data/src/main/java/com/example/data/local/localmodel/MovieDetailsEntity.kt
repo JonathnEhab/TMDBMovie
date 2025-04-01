@@ -21,9 +21,6 @@ data class MovieDetailsEntity(
     val posterPath: String?
 )
 
-
-
-
 fun MovieDetailsDataModel.toEntity(): MovieDetailsEntity {
     return MovieDetailsEntity(
         id = this.id,

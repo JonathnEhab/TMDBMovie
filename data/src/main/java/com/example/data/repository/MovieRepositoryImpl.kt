@@ -25,21 +25,16 @@ class MovieRepositoryImpl @Inject constructor(
 
     override suspend fun fetchNowPlayingMovies(): ResultState<List<MovieDomainModel>> {
         return try {
-
             val localMovies = localDataSource.getMovies().firstOrNull()
             if (!localMovies.isNullOrEmpty()) {
 
                 return ResultState.Success(localMovies.map { it.toDomainModel() })
             }
-
-
             val response = remoteDataSource.fetchNowPlayingMovies()
             when (response) {
                 is DataState.Success -> {
                     val moviesEntities = response.data.results.map { it.toEntity() }
                     localDataSource.insertMovies(moviesEntities)
-
-
                     ResultState.Success(moviesEntities.map { it.toDomainModel() })
                 }
                 is DataState.Error -> {
@@ -50,6 +45,8 @@ class MovieRepositoryImpl @Inject constructor(
             ResultState.Error(ExceptionHandler.handleException(e))
         }
     }
+
+
 
     override suspend fun fetchMovieDetails(movieId: Int): ResultState<MovieDetailsDomainModel> {
         return try {

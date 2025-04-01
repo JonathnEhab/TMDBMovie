@@ -25,6 +25,19 @@ class RemoteDataSourceImpl @Inject constructor(private val apiService: ApiServic
         }
     }
 
+    override suspend fun fetchUpcomingMovies( page : Int): DataState<MovieDbResultDataModel> {
+        return try {
+            val response = apiService.fetchUpcomingMovies(page)
+            if (response.isSuccessful && response.body() !=null){
+                DataState.Success(response.body()!!)
+            }else{
+                DataState.Error(response.message() ?: "Unknown error occurred")
+            }
+        } catch (e :Exception){
+            DataState.Error(ExceptionHandler.handleException(e))
+        }
+    }
+
     override suspend fun fetchMovieDetails(movieId: Int): DataState<MovieDetailsDataModel> {
         return try {
             val response = apiService.fetchMovieDetails(movieId)

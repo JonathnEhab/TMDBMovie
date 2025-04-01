@@ -6,7 +6,7 @@ import com.example.data.BuildConfig
 import com.example.data.network.modelnetwork.MovieDataModel
 import com.example.domain.models.MovieDomainModel
 
-@Entity(tableName = "movies")
+@Entity(tableName = "NowPlayMovies")
 data class MovieEntity(
     @PrimaryKey val id: Int,
     val title: String,
