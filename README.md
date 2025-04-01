@@ -1,3 +1,13 @@
+# Make sure you put **( MOVIES_API_KEY &&  MOVIES_BASE_URL && MOVIES_IMAGE_URL )** in  **local.properties File**
+---
+
+MOVIES_API_KEY=50b13e010d72170b1aab1fba34aa753f
+
+MOVIES_BASE_URL=https\://api.themoviedb.org/3/movie/
+
+MOVIES_IMAGE_URL=https\://image.tmdb.org/t/p/w500
+
+---
 # 🎬 Movies App - With Unit Testing
 
 ## 📌 **Project Overview**
