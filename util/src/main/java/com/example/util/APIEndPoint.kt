@@ -7,6 +7,5 @@ object APIEndPoint {
 
     //EndPoints Params
     const val MOVIE_ID_PARAM = "movie_id"
-    const val PAGE_PARAM = "page"
     const val APIKey = "api_key"
 }
