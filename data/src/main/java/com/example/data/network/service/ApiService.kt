@@ -14,9 +14,6 @@ interface ApiService {
     @GET(APIEndPoint.GET_NOW_PLAYING_MOVIES_ENDPOINT)
     suspend fun fetchNowPlayingMovies():Response<MovieDbResultDataModel>
 
-    @GET(APIEndPoint.GET_UPCOMING_MOVIES_ENDPOINT)
-    suspend fun fetchUpcomingMovies( @Query(APIEndPoint.PAGE_PARAM) page: Int) :Response<MovieDbResultDataModel>
-
 
     @GET(APIEndPoint.GET_MOVIE_DETAILS_ENDPOINT)
     suspend fun fetchMovieDetails(

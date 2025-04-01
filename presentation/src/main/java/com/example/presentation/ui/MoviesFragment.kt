@@ -73,7 +73,7 @@ class MoviesFragment : Fragment() {
 
     private fun observeMovies() {
         lifecycleScope.launch(Dispatchers.Main) {
-            viewModel.nowPlayingMoviesState.collect { state ->
+            viewModel.moviesState.collect { state ->
                 when (state) {
                     is MoviesState.Loading -> {
                         binding.errorMassages.visibility=View.GONE

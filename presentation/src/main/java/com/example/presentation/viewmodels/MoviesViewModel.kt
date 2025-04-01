@@ -21,9 +21,8 @@ class MoviesViewModel @Inject constructor(
     private val repository: MovieRepository
 ) : ViewModel() {
 
-    private val _nowPlayingMoviesState = MutableStateFlow<MoviesState>(MoviesState.Loading)
-    val nowPlayingMoviesState: StateFlow<MoviesState> = _nowPlayingMoviesState.asStateFlow()
-
+    private val _moviesState = MutableStateFlow<MoviesState>(MoviesState.Loading)
+    val moviesState: StateFlow<MoviesState> = _moviesState.asStateFlow()
 
     fun handleIntent(intent: MoviesIntent) {
         when (intent) {
@@ -33,19 +32,17 @@ class MoviesViewModel @Inject constructor(
 
     private fun fetchNowPlayingMovies() {
         viewModelScope.launch(Dispatchers.IO) {
-            _nowPlayingMoviesState.value = MoviesState.Loading
+            _moviesState.value = MoviesState.Loading
             when (val result = repository.fetchNowPlayingMovies()) {
                 is ResultState.Success -> {
-                    _nowPlayingMoviesState.value = MoviesState.Success(result.data)
-                    Log.d("MoviesViewModel", "fetchNowPlayingMovies: ${result.data.size} ")
+                    _moviesState.value = MoviesState.Success(result.data)
                 }
                 is ResultState.Error -> {
-                    _nowPlayingMoviesState.value = MoviesState.Error(ExceptionHandler.handleException(Exception(result.message)))
-                    Log.d("MoviesViewModel", "fetchNowPlayingMovies: ${result.message} ")
+                    _moviesState.value = MoviesState.Error(ExceptionHandler.handleException(Exception(result.message)))
                 }
             }
         }
     }
-
-
 }
+
+
