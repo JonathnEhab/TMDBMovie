@@ -25,16 +25,38 @@ class MovieRepositoryImpl @Inject constructor(
 
     override suspend fun fetchNowPlayingMovies(): ResultState<List<MovieDomainModel>> {
         return try {
+
             val localMovies = localDataSource.getMovies().firstOrNull()
             if (!localMovies.isNullOrEmpty()) {
 
                 return ResultState.Success(localMovies.map { it.toDomainModel() })
             }
+
+
             val response = remoteDataSource.fetchNowPlayingMovies()
             when (response) {
                 is DataState.Success -> {
                     val moviesEntities = response.data.results.map { it.toEntity() }
+
                     localDataSource.insertMovies(moviesEntities)
+
+
+                    response.data.results.forEach { movie ->
+
+                        val movieDetailsResponse = remoteDataSource.fetchMovieDetails(movie.id)
+                        when (movieDetailsResponse) {
+                            is DataState.Success -> {
+                                val movieDetailsEntity = movieDetailsResponse.data.toEntity()
+
+                                localDataSource.insertMovieDetails(movieDetailsEntity)
+                            }
+                            is DataState.Error -> {
+                                Log.d("MovieRepository", "Error fetching details for movie id ${movie.id}")
+                            }
+                        }
+                    }
+
+
                     ResultState.Success(moviesEntities.map { it.toDomainModel() })
                 }
                 is DataState.Error -> {
@@ -45,8 +67,6 @@ class MovieRepositoryImpl @Inject constructor(
             ResultState.Error(ExceptionHandler.handleException(e))
         }
     }
-
-
 
     override suspend fun fetchMovieDetails(movieId: Int): ResultState<MovieDetailsDomainModel> {
         return try {
@@ -62,9 +82,8 @@ class MovieRepositoryImpl @Inject constructor(
             when (response) {
                 is DataState.Success -> {
                     val movieEntity = response.data.toEntity()
+
                     localDataSource.insertMovieDetails(movieEntity)
-
-
                     ResultState.Success(movieEntity.toDomainModel())
                 }
                 is DataState.Error -> {
@@ -75,7 +94,5 @@ class MovieRepositoryImpl @Inject constructor(
             ResultState.Error(ExceptionHandler.handleException(e))
         }
     }
-
-
 }
 
